@@ -39,6 +39,7 @@ namespace ConstructionLine.CodingChallenge.Tests
             sw.Stop();
             Console.WriteLine($"Test fixture finished in {sw.ElapsedMilliseconds} milliseconds");
 
+            //these assertion were wrong because they were checking original shirts list not the results
             AssertResults(results.Shirts, options);
             AssertSizeCounts(results.Shirts, options, results.SizeCounts);
             AssertColorCounts(results.Shirts, options, results.ColorCounts);
