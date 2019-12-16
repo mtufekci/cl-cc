@@ -28,8 +28,8 @@ namespace ConstructionLine.CodingChallenge.Tests
             Console.WriteLine($"Test fixture finished in {sw.ElapsedMilliseconds} milliseconds");
 
             AssertResults(results.Shirts, options);
-            AssertSizeCounts(results.Shirts, options, results.SizeCounts);
-            AssertColorCounts(results.Shirts, options, results.ColorCounts);
+            AssertSizeCounts(shirts, options, results.SizeCounts);
+            AssertColorCounts(shirts, options, results.ColorCounts);
         }
 
         private static SearchResults When_Search_Engine_Did_Search(SearchEngine searchEngine, SearchOptions options)
