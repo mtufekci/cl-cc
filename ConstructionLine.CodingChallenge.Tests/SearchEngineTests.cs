@@ -8,12 +8,39 @@ namespace ConstructionLine.CodingChallenge.Tests
     [TestFixture]
     public class SearchEngineTests : SearchEngineTestsBase
     {
+        private List<Shirt> _shirts;
+
         [Test]
         public void Test()
         {
-            var shirts = Given_Shirts();
+            var shirts = new List<Shirt>
+            {
+                new Shirt(Guid.NewGuid(), "Red - Small", Size.Small, Color.Red),
+                new Shirt(Guid.NewGuid(), "Black - Medium", Size.Medium, Color.Black),
+                new Shirt(Guid.NewGuid(), "Blue - Large", Size.Large, Color.Blue),
+            };
 
             var searchEngine = Given_SearchEngine(shirts);
+
+            var searchOptions = new SearchOptions
+            {
+                Colors = new List<Color> {Color.Red},
+                Sizes = new List<Size> {Size.Small}
+            };
+
+            var results = searchEngine.Search(searchOptions);
+
+            AssertResults(results.Shirts, searchOptions);
+            AssertSizeCounts(shirts, searchOptions, results.SizeCounts);
+            AssertColorCounts(shirts, searchOptions, results.ColorCounts);
+        }
+    
+        [Test]
+        public void TestRefactored()
+        {
+            _shirts = Given_Shirts();
+
+            var searchEngine = Given_SearchEngine(_shirts);
 
             var searchOptions =  new SearchOptions
             {
@@ -31,9 +58,9 @@ namespace ConstructionLine.CodingChallenge.Tests
         [Test]
         public void TestForAll()
         {
-            var shirts = Given_Shirts();
+            _shirts = Given_Shirts();
 
-            var searchEngine = Given_SearchEngine(shirts);
+            var searchEngine = Given_SearchEngine(_shirts);
 
             var searchOptions =  new SearchOptions
             {
@@ -72,20 +99,20 @@ namespace ConstructionLine.CodingChallenge.Tests
             return shirts;
         }
 
-        private static void Then_Should_Return_Number_Of_Shirts_For_Each_Size(SearchResults results,
+        private void Then_Should_Return_Number_Of_Shirts_For_Each_Size(SearchResults results,
             SearchOptions searchOptions)
         {
-            AssertSizeCounts(results.Shirts, searchOptions, results.SizeCounts);
+            AssertSizeCounts(_shirts, searchOptions, results.SizeCounts);
         }        
-        private static void Then_Should_Return_Number_Of_Shirts_For_Each_Color(SearchResults results,
+        private void Then_Should_Return_Number_Of_Shirts_For_Each_Color(SearchResults results,
             SearchOptions searchOptions)
         {
-            AssertColorCounts(results.Shirts, searchOptions, results.ColorCounts);
+            AssertColorCounts(_shirts, searchOptions, results.ColorCounts);
         }
 
-        private static void Then_Should_Return_Correct_Results(SearchResults results, SearchOptions searchOptions)
+        private void Then_Should_Return_Correct_Results(SearchResults results, SearchOptions searchOptions)
         {
-            AssertResults(results.Shirts, searchOptions);
+            AssertResults(_shirts, searchOptions);
         }
     }
 }

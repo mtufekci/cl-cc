@@ -39,10 +39,98 @@ namespace ConstructionLine.CodingChallenge.Tests
             sw.Stop();
             Console.WriteLine($"Test fixture finished in {sw.ElapsedMilliseconds} milliseconds");
 
-            //these assertion were wrong because they were checking original shirts list not the results
             AssertResults(results.Shirts, options);
-            AssertSizeCounts(results.Shirts, options, results.SizeCounts);
-            AssertColorCounts(results.Shirts, options, results.ColorCounts);
+            AssertSizeCounts(_shirts, options, results.SizeCounts);
+            AssertColorCounts(_shirts, options, results.ColorCounts);
+        }
+        
+        
+        [Test]
+        public void PerformanceTestRedSmall()
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+
+            var options = new SearchOptions
+            {
+                Colors = new List<Color> { Color.Red },
+                Sizes = new List<Size> { Size.Small }
+            };
+
+            var results = _searchEngine.Search(options);
+
+            sw.Stop();
+            Console.WriteLine($"Test fixture finished in {sw.ElapsedMilliseconds} milliseconds");
+
+            AssertResults(results.Shirts, options);
+            AssertSizeCounts(_shirts, options, results.SizeCounts);
+            AssertColorCounts(_shirts, options, results.ColorCounts);
+        }        
+        
+        [Test]
+        public void PerformanceTestOnlySmall()
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+
+            var options = new SearchOptions
+            {
+                Sizes = new List<Size> { Size.Small }
+            };
+
+            var results = _searchEngine.Search(options);
+
+            sw.Stop();
+            Console.WriteLine($"Test fixture finished in {sw.ElapsedMilliseconds} milliseconds");
+
+            AssertResults(results.Shirts, options);
+            AssertSizeCounts(_shirts, options, results.SizeCounts);
+            AssertColorCounts(_shirts, options, results.ColorCounts);
+        }      
+        
+        
+        [Test]
+        public void PerformanceTestSizeAll()
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+
+            var options = new SearchOptions
+            {
+                Sizes = Size.All
+            };
+
+            var results = _searchEngine.Search(options);
+
+            sw.Stop();
+            Console.WriteLine($"Test fixture finished in {sw.ElapsedMilliseconds} milliseconds");
+
+            AssertResults(results.Shirts, options);
+            AssertSizeCounts(_shirts, options, results.SizeCounts);
+            AssertColorCounts(_shirts, options, results.ColorCounts);
+        }        
+        
+        [Test]
+        public void PerformanceTestRedBlueSmallBlue()
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+
+            var options = new SearchOptions
+            {
+                Colors = new List<Color> { Color.Red, Color.Blue },
+                Sizes = new List<Size> { Size.Small, Size.Medium }
+                
+            };
+
+            var results = _searchEngine.Search(options);
+
+            sw.Stop();
+            Console.WriteLine($"Test fixture finished in {sw.ElapsedMilliseconds} milliseconds");
+
+            AssertResults(results.Shirts, options);
+            AssertSizeCounts(_shirts, options, results.SizeCounts);
+            AssertColorCounts(_shirts, options, results.ColorCounts);
         }
     }
 }
