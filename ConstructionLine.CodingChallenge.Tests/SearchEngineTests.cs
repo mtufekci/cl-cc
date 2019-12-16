@@ -73,6 +73,24 @@ namespace ConstructionLine.CodingChallenge.Tests
             Then_Should_Return_Correct_Results(results, searchOptions);
             Then_Should_Return_Number_Of_Shirts_For_Each_Size(results, searchOptions);
             Then_Should_Return_Number_Of_Shirts_For_Each_Color(results, searchOptions);
+        }        
+        [Test]
+        public void TestForOnlySizes()
+        {
+            _shirts = Given_Shirts();
+
+            var searchEngine = Given_SearchEngine(_shirts);
+
+            var searchOptions =  new SearchOptions
+            {
+                Sizes = Size.All
+            };
+
+            var results = When_SearchEngine_Does_Search(searchEngine, searchOptions);
+
+            Then_Should_Return_Correct_Results(results, searchOptions);
+            Then_Should_Return_Number_Of_Shirts_For_Each_Size(results, searchOptions);
+            Then_Should_Return_Number_Of_Shirts_For_Each_Color(results, searchOptions);
         }
 
         private static SearchResults When_SearchEngine_Does_Search(SearchEngine searchEngine, SearchOptions searchOptions)
@@ -93,8 +111,10 @@ namespace ConstructionLine.CodingChallenge.Tests
             var shirts = new List<Shirt>
             {
                 new Shirt(Guid.NewGuid(), "Red - Small", Size.Small, Color.Red),
+                new Shirt(Guid.NewGuid(), "Yellow - Small", Size.Small, Color.Yellow),
                 new Shirt(Guid.NewGuid(), "Black - Medium", Size.Medium, Color.Black),
                 new Shirt(Guid.NewGuid(), "Blue - Large", Size.Large, Color.Blue),
+                new Shirt(Guid.NewGuid(), "Red - Large", Size.Large, Color.Red),
             };
             return shirts;
         }

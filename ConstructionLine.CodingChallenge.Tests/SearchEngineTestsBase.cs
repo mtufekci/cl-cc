@@ -1,4 +1,5 @@
-﻿﻿using System.Collections.Generic;
+﻿﻿using System;
+ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
@@ -38,12 +39,10 @@ namespace ConstructionLine.CodingChallenge.Tests
                 var sizeCount = sizeCounts.SingleOrDefault(s => s.Size.Id == size.Id);
                 Assert.That(sizeCount, Is.Not.Null, $"Size count for '{size.Name}' not found in results");
 
-                if (!searchOptions.Sizes.Select(n => n.Id).Contains(size.Id))
-                    continue;
-
                 var expectedSizeCount = shirts
-                    .Count(s => s.Size.Id == size.Id
-
+                    .Count(s=>
+                        (!searchOptions.Sizes.Any() || searchOptions.Sizes.Select(n=> n.Id ).Contains(size.Id))
+                        && s.Size.Id == size.Id
                                 && (!searchOptions.Colors.Any() ||
                                     searchOptions.Colors.Select(c => c.Id).Contains(s.Color.Id)));
 
@@ -60,12 +59,11 @@ namespace ConstructionLine.CodingChallenge.Tests
             {
                 var colorCount = colorCounts.SingleOrDefault(s => s.Color.Id == color.Id);
                 Assert.That(colorCount, Is.Not.Null, $"Color count for '{color.Name}' not found in results");
-                
-                if (!searchOptions.Colors.Select(n => n.Id).Contains(color.Id))
-                    continue;
-                
+
                 var expectedColorCount = shirts
-                    .Count(c => c.Color.Id == color.Id  
+                    .Count(c => 
+                        (!searchOptions.Colors.Any() || searchOptions.Colors.Select(n=> n.Id ).Contains(color.Id))
+                        && c.Color.Id == color.Id
                                 && (!searchOptions.Sizes.Any() || searchOptions.Sizes.Select(s => s.Id).Contains(c.Size.Id)));
 
                 Assert.That(colorCount.Count, Is.EqualTo(expectedColorCount),
